@@ -9,18 +9,25 @@ const unsplash =  new Unsplash({
 const SearchPhotos = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const [formValue, setFormValue] = useState('')
+  const [pics, setPics] = useState([])
 
   const searchPhotos = async (e) => {
     console.log("Submitting the Form")
+    unsplash.search
+    .photos(formValue)
+    .then(toJson)
+    .then((json) => {
+      setPics(json.results);
+    });
     e.preventDefault();
   };
 
   return (
     <>
       <form className="form" onSubmit={handleSubmit(searchPhotos)}>
-      <label className="label" htmlFor="query"> 
-          📷
-      </label>
+        <label className="label" htmlFor="query"> 
+            📷
+        </label>
          <input 
           type="text"
           name="query"
@@ -34,6 +41,18 @@ const SearchPhotos = () => {
           Search
         </button>
       </form>
+      <div className="card-list">
+        {pics.map((pic) =>
+          <div className="card" key={pic.id}>
+            <img
+              className="card--image"
+              alt={pic.alt_description}
+              src={pic.urls.full}
+              width="50%"
+              height="50%"
+            ></img>
+          </div>)};
+      </div>
     </>
   )
 }
