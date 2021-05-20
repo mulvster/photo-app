@@ -1,18 +1,25 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React from "react"
+import { useForm } from "react-hook-form"
 
 const SearchPhotos = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useform()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const onSubmit = data => console.log("HI",data)
   console.log(watch("example"))
   
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input defaultValue="test" {...register("example")} />
-        <input {...register("exampleRequired", { required: true })} />
-        { errors.exampleRequired && <span>This field is required</span> }
-        <input type="submit" />
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <label className="label" htmlFor="query"> 
+          📷
+      </label>
+         <input 
+          type="text"
+          name="query"
+          className="input"
+          {...register("exampleRequired", { required: true })} 
+          placeholder={`Try "space" or "cat"`}
+         />
+        <button className="button" onClick={() => (console.log('clicky'))}>Submit</button>
       </form>
     </>
   )
